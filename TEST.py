@@ -1,15 +1,19 @@
-a = float(input("Введите сколько км спортсмен пробежал в первый день: "))
-b = float(input("Введите целевой показатель в км: "))
-c = a
-n = 2
-print("Результат:")
-print(f"1-й день: {round(a, 2)} км")
+a = int(input("\n>> Задание № 4 \nВведите целое число: "))
+"""n = len(a) - 1
+c = int(a[n])
 while n > 0:
-    c = c + 0.1*c
-    print(f"{n}-й день: {round(c, 2)} км")
-    if c >= b:
-        print(f"На {n}-й день спортсмен достигнет результата - не менее {b} км.")
+    b = c - int(a[n-1])
+    if b <= 0:
+        c = int(a[n-1])
+    n -= 1"""
+b = 0
+while True:
+    c = a % 10
+    if c > b:
+        b = c
+    a = a // 10
+    if a == 0:
         break
-    n += 1
-
-
+print(b)
+print(f"Самая большая цифра в числе: {b}")
+a, b, c = None, None, None
