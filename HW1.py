@@ -37,13 +37,11 @@ a = None
 
 a = int(input("\n>> Задание № 4 \nВведите целое число: "))
 b = 0
-while True:
+while a != 0:
     c = a % 10
     if c > b:
         b = c
     a = a // 10
-    if a == 0:
-        break
 print(b)
 print(f"Самая большая цифра в числе: {b}")
 a, b, c = None, None, None
