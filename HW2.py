@@ -20,9 +20,8 @@ my_list = None
 print("\nTask № 2")
 my_input = input("Введите элементы списка, разделяя их тире, например, 1-2-[string1, string2]-6: ")
 my_list = list(my_input.split('-'))
-for n in range(len(my_list)):
-    if n % 2 != 0:
-        my_list[n], my_list[n-1] = my_list[n-1], my_list[n]
+for n in range(1, len(my_list), 2):
+    my_list[n], my_list[n-1] = my_list[n-1], my_list[n]
 print(my_list)
 my_input, my_list = None, None
 
@@ -39,8 +38,8 @@ for key, value in dict_month.items():
     if value.count(month) == 1:
         print('Время года: ', key)
 
-list_season = ["Зима", "Зима", "Весна", "Весна", "Весна", "Лето", "Лето", "Лето", "Осень", "Осень", "Осень", "Зима"]
-print('Время года: ', list_season[month-1])
+list_season = ["Зима", "Весна", "Лето", "Осень", "Зима"]
+print('Время года: ', list_season[month // 3])
 
 """
 4. Пользователь вводит строку из нескольких слов, разделённых пробелами. Вывести каждое слово с новой строки. 
@@ -115,16 +114,12 @@ for i in range(amount):
 	prod_structure.append((i+1, temp_dict))
 	temp_dict = None
 
-prod_name = []
-prod_price = []
-prod_amount = []
-prod_quant = []
+list_names = ["название", "цена", "количество", "ед."]
+prod_name = [[] for i in range(len(list_names))]
 for i in range(len(prod_structure)):
-	prod_name.append(prod_structure[i][1]["название"])
-	prod_price.append(prod_structure[i][1]["цена"])
-	prod_amount.append(prod_structure[i][1]["количество"])
-	prod_quant.append(prod_structure[i][1]["ед."])
-prod_dict = {"название": prod_name, "цена": prod_price, "количество": prod_amount, "ед.": prod_quant}
+    for j in range(len(list_names)):
+	    prod_name[j].extend([prod_structure[i][1][list_names[j]]])
+prod_dict = {"название": prod_name[0], "цена": prod_name[1], "количество": prod_name[2], "ед.": prod_name[3]}
 
 print ('структура данных "Товары": ', prod_structure)
 print('аналитика о товарах :', prod_dict)
