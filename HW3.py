@@ -8,7 +8,7 @@ def div(num1, num2):
     try:
         return(num1/num2)
     except ZeroDivisionError:
-        return('-> infinity')
+        return float('inf')
 list_of_num = input("Введите два числа через пробел, которые нужно поделить: ").split()
 print('результат деления ', div(float(list_of_num[0]), float(list_of_num[1])))
 
