@@ -23,8 +23,7 @@ out_f.close()
 print("\nTask № 2")
 with open("Task_2_text.txt") as f_obj:
     cont = f_obj.readlines()
-res = []
-res.extend([(i+1, len(string.split())) for i, string in enumerate(cont)])
+res = [(i+1, len(string.split())) for i, string in enumerate(cont)]
 print(res)
 print(f" Количество строк в файле: {len(cont)}")
 for data in res:
@@ -72,12 +71,10 @@ print("\nTask № 4")
 with open("Task_4_text_1.txt") as f_obj:
     cont = f_obj.readlines()
 
-res = []
-res.extend([[string.split("-")[0].rstrip(), string.split("-")[1]] for string in cont])
-res[0][0] = "Один -"
-res[1][0] = "Два -"
-res[2][0] = "Три -"
-res[3][0] = "Четыре -"
+res = [[string.split("-")[0].rstrip(), string.split("-")[1]] for string in cont]
+words_dict = {"One": "Один", "Two": "Два", "Three": "Три", "Four": "Четыре"}
+for i in range(len(res)):
+    res[i][0] = words_dict[res[i][0]] + " -"
 with open("Task_4_text_2.txt", "w") as f_obj:
     [f_obj.writelines(string) for string in res]
 
@@ -154,7 +151,8 @@ print("\nTask № 7")
 with open("Task_7_text.txt") as f_obj:
     cont = f_obj.readlines()
 # переводим данные из файла в словарь - название фирмы (ключ) и рассчитанная прибыль или убыток
-my_dict = {les.split()[0]: float(les.split()[2]) - float(les.split()[3]) for les in cont}
+data_list = [les.split() for les in cont]
+my_dict = {l[0]: float(l[2]) - float(l[3]) for l in data_list}
 # формируем список со значениями прибылей
 prof_list = []
 for prof in my_dict.values():
