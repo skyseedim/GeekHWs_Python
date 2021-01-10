@@ -40,9 +40,11 @@ print("\nTask № 3\n Для чисел [20; 240], кратные 20 или 21: 
 """
 
 print("\nTask № 4")
+import collections
 my_list = [2, 2, 2, 7, 23, 1, 44, 44, 3, 2, 10, 7, 4, 11]
 print("Исходный список: \n", my_list)
-res = [el for el in my_list if my_list.count(el) == 1]
+c = collections.Counter(my_list)
+res = [el for el in c.keys() if c[el] == 1]
 print("Элементы, не имеющие повторений: \n", res)
 
 """
@@ -54,7 +56,7 @@ print("Элементы, не имеющие повторений: \n", res)
 
 print("\nTask № 5")
 from functools import reduce
-my_list = [el for el in range(100, 1001) if el % 2 == 0]
+my_list = [el for el in range(100, 1001, 2)]
 def my_func(prev_el, el):
     return(prev_el * el)
 print("Произведение всех чётных чисел [100;1000]: \n",reduce(my_func, my_list))
@@ -97,10 +99,11 @@ for el in fact(n). Функция отвечает за получение фа�
 """
 
 print("\nTask № 7")
-from math import factorial
 def fact(n):
-    for i in range(1, n+1):
-        yield factorial(i)
+    k = 1
+    for i in range(1, n + 1):
+        k *= i
+        yield k
 
 for el in fact(10):
     print(el)
