@@ -138,17 +138,20 @@ class OfficeStorage:
         self.__stor_eq = eq_dict
         self.__new_eq_dict = new_eq_dict
 
+    # id процедуры поступления/передачи оборудования
+    # Формат id: P/S/C_'dt_now'.'случайное число от 1 до 1000000', dt_now - текущее время в сек с 1970
+    @staticmethod
+    def id_proc(first_let):
+        return first_let + '_' + str(datetime.datetime.now().timestamp()) + '.' + str(random.randint(1, 1000000))
+
     #Метод поступления техники на склад. Возвращает словарь и записывает его в json файл
     def new_eq(self):
         for eq_type, par in self.__new_eq_dict.items():
-            dt_now = str(datetime.datetime.now().timestamp())
-            #dt_now (текущее время в сек с 1970) нужен для id процедуры поступления/передачи оборудования
-            # Формат id: P/S/C_'dt_now'.'случайное число от 1 до 1000000
             try:
-                self.__stor_eq[eq_type].update({eq_type[:1] + '_' + dt_now + '.' + str(random.randint(1, 1000000)): [par, 'Storage']})
+                self.__stor_eq[eq_type].update({OfficeStorage.id_proc(eq_type[:1]): [par, 'Storage']})
                 print(f"Ещё одно оборудование {eq_type} поступило на склад")
             except KeyError:
-                self.__stor_eq[eq_type] = {eq_type[:1] + '_' + dt_now: [par, 'Storage']}
+                self.__stor_eq[eq_type] = {OfficeStorage.id_proc(eq_type[:1]): [par, 'Storage']}
                 print(f"Новое оборудование {eq_type} поступило на склад")
 
             with open("Office_Equipment.json", "w") as write_f:
@@ -158,7 +161,7 @@ class OfficeStorage:
     # Метод передачи техники в подразделения. Возвращает словарь и записывает его в json файл
     def eq_transfer(self, division, id_num, num_transfer):
         self.division = division
-        self.__id_num = id_num #id процедуры (см.выше в new_eq)
+        self.__id_num = id_num #id процедуры (см.выше в id_proc)
 
         # проверка того, что num_transfer (число оборудования отпровляемые в подразделения) - это число. Если нет,
         # то предлагает ввести правильное значение без выхода из скрипта. Воспользовался классом Error2 из задания 3.
@@ -179,7 +182,7 @@ class OfficeStorage:
             stor_key = 'Copier'
         num_in_stor = self.__stor_eq[stor_key][self.__id_num][0][0] #число оборудования на складе
 
-        while True: # нужен только для обработки ситуации, когда количество передоваемых устройств меньше хранящихся на складе
+        while True: # нужен для обработки ситуации, когда количество передоваемых устройств меньше хранящихся на складе
             if num_in_stor == self.num_transfer:
                 self.__stor_eq[stor_key][self.__id_num][1] = self.division
                 print(f"Всё оборудование передано в подразделение {self.division}")
@@ -187,7 +190,7 @@ class OfficeStorage:
             elif num_in_stor > self.num_transfer:
                 dt_now = str(datetime.datetime.now().timestamp())
                 self.__stor_eq[stor_key][self.__id_num][0][0] -= self.num_transfer
-                self.__stor_eq[stor_key].update({stor_key[:1] + '_' + dt_now: [
+                self.__stor_eq[stor_key].update({OfficeStorage.id_proc(stor_key[:1]): [
                     [self.num_transfer] + self.__stor_eq[stor_key][self.__id_num][0][1:], self.division]})
                 print(f"Часть оборудования передано в подразделение {self.division}")
                 break
@@ -291,11 +294,11 @@ class Complex:
         self.im_part = compl_numb[1]
 
     def __add__(self, other):
-        return (self.real_part + other.real_part, self.im_part + other.im_part)
+        return Complex((self.real_part + other.real_part, self.im_part + other.im_part))
 
     def __mul__(self, other):
-        return(self.real_part * other.real_part - self.im_part * other.im_part, self.real_part * other.im_part + \
-               other.real_part * self.im_part)
+        return Complex((self.real_part * other.real_part - self.im_part * other.im_part, self.real_part * other.im_part + \
+               other.real_part * self.im_part))
 
     def __str__(self):
         return str(self.real_part) + ' + ' + str(self.im_part) + 'i'
@@ -304,37 +307,7 @@ class Complex:
 cnum1 = Complex((5, 6))
 cnum2 = Complex((3, 4))
 csum = cnum1 + cnum2
-print(Complex(csum))
+print(csum)
 cmul = cnum1 * cnum2
-print(Complex(cmul))
+print(cmul)
 print(cnum1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
