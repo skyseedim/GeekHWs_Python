@@ -19,11 +19,10 @@ class Matrix:
 
     def __str__(self):  # представление матрицы в виде набора строк
         self.row = ''
-        for i in range(len(self.matr)):
-            self.par = len(self.matr[i])
-            for j in range(self.par - 1):
-                self.row += str(self.matr[i][j]) + ' '
-            self.row += str(self.matr[i][self.par - 1]) + '\n'
+        for line in self.matr:
+            for item in line:
+                self.row += str(f'{item:>4}')
+            self.row += '\n'
         return self.row
 
     def __add__(self, other):
